@@ -1,5 +1,5 @@
 require('dotenv').config()
-const mailjet = require('node-mailjet').connect("9f95d00d0529a265f38e75655312d482", 'dd7434a25be90ff3bf53828443a59fa1')
+const mailjet = require('node-mailjet').connect('a0f8b7ad472c8f9a05f21a5e93c00e24', "22b5502e1c64b670790e1089404eeadf")
 const express = require('express');
 const ejs_mate = require('ejs-mate');
 const fetch = require('node-fetch');
@@ -31,6 +31,10 @@ app.get('/index', (req, res) => {
     res.render('index')
 })
 
+
+app.get('/home', (req, res) => {
+    res.render('index')
+})
 
 app.get('/about', (req, res) => {
     res.render('about')
@@ -78,7 +82,7 @@ app.get('/social-media', (req, res) => {
 
 
 app.post('/send', (req, res) => {
-    console.log(req.body)
+    console.log(req.body.email)
     fetch(`https://api.eva.pingutil.com/email?email=${req.body.email}`, requestOptions)
         .then(() => {
             const request = mailjet
@@ -86,15 +90,17 @@ app.post('/send', (req, res) => {
                 .request({
                     "Messages": [{
                         "From": {
-                            "Email": "afazedine@gmail.com",
-                            "Name": "azedine af"
+                            "Email": req.body.email,
+                            "Name": req.body.name
                         },
                         "To": [{
-                            "Email": "ghernaoutmassi@gmail.com",
-                            "Name": "Massiles Ghernaout"
+                            "Email": "afazedine@gmail.com",
+                            "Name": "azedine af"
                         }],
                         "Subject": "Client feedbacks & Requests",
-                        "TextPart": "client email address" + req.body.email + "client full name" + req.body.Name + "client budget" + req.body.budget + "client description" + req.body.description
+                        "TextPart": "",
+                        "HTMLPart": `<h3>client full name: ${req.body.name}</h3><br><h3>client email address: ${req.body.email}</h3><br><h4>client budget: ${req.body.budget}$</h4><br><p>client text: ${req.body.description}</p><br>`,
+                        "CustomID": ""
                     }]
                 })
             request
@@ -104,8 +110,8 @@ app.post('/send', (req, res) => {
                 .catch((err) => {
                     console.log(err.message)
                 })
-            res.redirect('/')
         })
+    res.redirect('/')
 
 })
 
