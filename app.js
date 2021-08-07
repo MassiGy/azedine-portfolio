@@ -106,10 +106,10 @@ app.post('/send', (req, res) => {
                     console.log(result.body)
                 })
                 .catch((err) => {
-                    console.log(err.message)
+                    res.redirect('/')
                 })
         })
-    res.redirect('/')
+    setTimeout(res.redirect('/index#form'), 4000)
 
 })
 
