@@ -16,5 +16,10 @@
   "bugs": {
     "url": "https://github.com/MassiGy/azedine-portfolio/issues"
   },
-  "homepage": "https://github.com/MassiGy/azedine-portfolio#readme"
+  "homepage": "https://github.com/MassiGy/azedine-portfolio#readme",
+  "dependencies": {
+    "ejs": "^3.1.6",
+    "ejs-mate": "^3.0.0",
+    "express": "^4.17.1"
+  }
 }
