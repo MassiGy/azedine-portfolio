@@ -98,9 +98,7 @@ app.post('/send', (req, res) => {
                             "Name": "azedine af"
                         }],
                         "Subject": "Client feedbacks & Requests",
-                        "TextPart": "",
                         "HTMLPart": `<h3>client full name: ${req.body.name}</h3><br><h3>client email address: ${req.body.email}</h3><br><h4>client budget: ${req.body.budget}$</h4><br><p>client text: ${req.body.description}</p><br>`,
-                        "CustomID": ""
                     }]
                 })
             request
