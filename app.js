@@ -100,7 +100,6 @@ app.get('/social-media', (req, res) => {
 
 
 app.post('/send', (req, res) => {
-    console.log(req.body.email)
     fetch(`https://api.eva.pingutil.com/email?email=${req.body.email}`, requestOptions)
         .then(() => {
             const request = mailjet
@@ -108,8 +107,8 @@ app.post('/send', (req, res) => {
                 .request({
                     "Messages": [{
                         "From": {
-                            "Email": req.body.email,
-                            "Name": req.body.name
+                            "Email": "ghernaoutmassi@gmail.com",
+                            "Name": "Massiles Ghernaout"
                         },
                         "To": [{
                             "Email": "afazedine@gmail.com",
