@@ -5,13 +5,21 @@ const ejs_mate = require('ejs-mate');
 const fetch = require('node-fetch');
 const path = require('path');
 const app = express();
+const flash = require('connect-flash')
+const session = require('express-session')
 const port = process.env.PORT || 3000;
-var requestOptions = {
-    method: 'GET',
-    redirect: 'follow'
-};
+var requestOptions = { method: 'GET', redirect: 'follow' };
+const sessionConfig = {
+    secret: 'u.controllers.token',
+    name: 'u.controllers',
+    resave: false,
+    saveUninitialized: false,
+    Cookie: {
+        secure: true,
+        httpOnly: true,
+    }
 
-
+}
 
 
 app.engine('ejs', ejs_mate);
@@ -22,6 +30,16 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/uploads-ssl.webflow.com', express.static('uploads-ssl.webflow.com'))
 app.use('/ajax.googleapis.com', express.static('ajax.googleapis.com'))
 app.use('/d3e54v103j8qbb.cloudfront.net', express.static('d3e54v103j8qbb.cloudfront.net'))
+
+app.use(session(sessionConfig))
+app.use(flash())
+
+
+app.use((req, res, next) => {
+    res.locals.success = req.flash('success')
+    res.locals.danger = req.flash('danger')
+    next();
+})
 
 
 app.get('/', (req, res) => {
@@ -103,13 +121,19 @@ app.post('/send', (req, res) => {
                 })
             request
                 .then((result) => {
-                    console.log(result.body)
+                    req.flash('success', "Thank you , I will contact you soon!")
+                    res.redirect('/index#form')
+
                 })
                 .catch((err) => {
-                    res.redirect('/')
+                    req.flash('danger', "Oop something went wrong! Please try again ...")
+                    res.redirect('/index#form')
                 })
         })
-    setTimeout(res.redirect('/index#form'), 4000)
+        .catch(err => {
+            req.flash('danger', "Oop something went wrong! Please try again ...")
+            res.redirect('/index#form')
+        })
 
 })
 
