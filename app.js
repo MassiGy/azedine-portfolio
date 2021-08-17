@@ -46,12 +46,12 @@ app.get('/', (req, res) => {
     res.render('index')
 })
 app.get('/index', (req, res) => {
-    res.render('index')
+    res.redirect('/')
 })
 
 
 app.get('/home', (req, res) => {
-    res.render('index')
+    res.redirect('/')
 })
 
 app.get('/about', (req, res) => {
